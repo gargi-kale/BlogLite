@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        <title>
+            Profile View
+        </title>
+    </head>
+        {% set list=[] %}
+        {% for u in following_v %}
+        {{ list.append(u.follows) or ''}}
+        {% endfor %}
+    <body>
+        <h2>{{ user_name }}</h2><br>
+        {% if user_name in list %}
+        <a href="{{ url_for('unfollow',who_isunfollowing=cur,follows=user_name) }}">
+        <button name="unfollow" class="btn btn-primary">Unfollow</button><br>
+        </a>
+    <ul class="list-inline">
+        <li class="list-inline-item">Followers: <a href="{{ url_for('display',cur_user=cur,name=user_name,action='followers') }}">{{followers_l}}</a></li>
+        <li class="list-inline-item">Following: <a href="{{ url_for('display',cur_user=cur,name=user_name,action='following')}}">{{following_l}}</a></li>
+        <li class="list-inline-item">No. of Posts: {{ length }}</li>
+    </ul>
+        Posts:<br>
+        {% for photo in posts_sent %}
+        <div class="card" style="width: 30rem;">
+            <img src="{{ photo.img_addr }}" class="card-img-top" width="500" height="400">
+            <div class="card-body">
+              <h5 class="card-title">{{photo.title}}</h5>
+              <p class="card-text">{{ photo.caption }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% elif user_name!=cur %}
+        <a href="{{ url_for('follow',who_isfollowing=cur ,follows=user_name) }}">
+        <button name="follow" class="btn btn-primary">Follow</button><br>
+        </a>
+    <ul class="list-inline">
+        <li class="list-inline-item">Followers: <a href="{{ url_for('display',cur_user=cur,name=user_name,action='followers') }}">{{followers_l}}</a></li>
+        <li class="list-inline-item">Following: <a href="{{ url_for('display',cur_user=cur,name=user_name,action='following')}}">{{following_l}}</a></li>
+        <li class="list-inline-item">No. of Posts: {{ length }}</li>
+    </ul>
+        Posts:<br>
+        {% for photo in posts_sent %}
+        <div class="card" style="width: 30rem;">
+            <img src="{{ photo.img_addr }}" class="card-img-top" width="500" height="400">
+            <div class="card-body">
+              <h5 class="card-title">{{photo.title}}</h5>
+              <p class="card-text">{{ photo.caption }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {%else%}
+    <ul class="list-inline">
+        <li class="list-inline-item">Followers: <a href="{{ url_for('display',cur_user=cur,name=user_name,action='followers') }}">{{followers_l}}</a></li>
+        <li class="list-inline-item">Following: <a href="{{ url_for('display',cur_user=cur,name=user_name,action='following')}}">{{following_l}}</a></li>
+        <li class="list-inline-item">No. of Posts: {{ length }}</li>
+    </ul>
+        Posts:<br>
+        {% for photo in posts_sent %}
+        <div class="card" style="width: 30rem;">
+            <img src="{{ photo.img_addr }}" class="card-img-top" width="500" height="400">
+            <div class="card-body">
+              <h5 class="card-title">{{photo.title}}</h5>
+              <p class="card-text">{{ photo.caption }}</p>
+            </div>
+        <form action="{{ url_for('edit',name=cur,id=photo._id)}}" method="POST">
+            <input type="submit" value="edit">
+        </form>
+        <form action="{{ url_for('delete',name=cur,id=photo._id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
+            <input type="submit" value="delete">
+        </form>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    </body> 
+</html>

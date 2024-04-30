@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <title>
+        Edit Post
+    </title>
+    </head>
+    <body>
+        <div class="container">
+        <form action="{{ url_for('ac_edit',name=name,id=id)}}" method="POST">
+        <div class="mb-3">
+            <label for="Title" class="form-label">Enter Title:</label>
+            <input type="text" class="form-control" name="Title"><br>
+        </div>
+        <div class="mb-3">
+            <label for="caption" class="form-label">Enter Caption:</label>
+            <input type="text" class="form-control" name="caption"><br>
+        </div>
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button><br>
+            <br>
+        </form>
+        {%for pic in photo %}
+        <img src="{{pic.img}}" widht="500" height="400">
+        {% endfor %}
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>
